@@ -1,0 +1,8 @@
+numer_project/
+├── config.py       # all settings in one place
+├── data.py         # loading/downloading data
+├── models.py       # model registry
+├── evaluate.py     # scoring functions
+├── pipeline.py     # ties it all together
+└── main.py         # entry point
+└── get_pickle.py   # get the model as a pickle file
