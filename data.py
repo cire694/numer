@@ -1,9 +1,20 @@
+from typing import Tuple, List
 import os, json
 import pandas as pd
 from numerapi import NumerAPI
+from config import Config
 
-#split: train, validation, live
-def load_dataset(config, split="train"):
+
+def load_dataset(config: Config, split: str = "train") -> Tuple[pd.DataFrame, List[str]]:
+    """Load dataset from Numerai API with caching.
+    
+    Args:
+        config: Configuration object with data settings
+        split: Data split ('train', 'validation', or 'live')
+        
+    Returns:
+        Tuple of (dataframe, feature_list)
+    """
     napi = NumerAPI()
     dest_folder = config.data_dir
     os.makedirs(dest_folder, exist_ok = True)

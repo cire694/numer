@@ -1,7 +1,9 @@
+from typing import Dict
 import numpy as np
 import pandas as pd
 
-def era_correlations(predictions, targets, eras):
+
+def era_correlations(predictions: np.ndarray, targets: np.ndarray, eras: np.ndarray) -> pd.Series:
     df = pd.DataFrame({"pred": predictions, "target": targets, "era": eras})
 
     # Rank within each era (vectorized across all eras at once)
@@ -31,9 +33,10 @@ def era_correlations(predictions, targets, eras):
     return numerator / denominator
 
 
-def summarize(era_corrs):
+def summarize(era_corrs: pd.Series) -> Dict[str, float]:
+    """Summarize era correlations into key metrics."""
     return {
-        "mean_corr": era_corrs.mean(),
-        "std_corr": era_corrs.std(),
-        "sharpe": era_corrs.mean() / era_corrs.std(),
+        "mean_corr": float(era_corrs.mean()),
+        "std_corr": float(era_corrs.std()),
+        "sharpe": float(era_corrs.mean() / era_corrs.std()),
     }
