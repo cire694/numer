@@ -1,4 +1,5 @@
 import lightgbm as lgb
+from joblib import Parallel, delayed
 
 from data import load_dataset
 from config import Config
@@ -13,6 +14,7 @@ if __name__ == "__main__":
     val, _ = load_dataset(config, split="validation")
 
     params = {
+        "num_threads": 4, #cores per model
         "num_leaves": 31,
         "colsample_bytree": 0.1,
         "learning_rate": 0.01,

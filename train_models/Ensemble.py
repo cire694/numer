@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from typing import List, Optional, Callable, Any
-
+from joblib import Parallel, delayed
+import os
 
 class EnsembleModel:
     """A flexible ensemble of heterogeneous models.
@@ -53,11 +54,28 @@ class EnsembleModel:
         self.models.append((name, model))
         return self
 
+    def _fit_single(
+        name: str, 
+        model: Any, 
+        train: pd.DataFrame, 
+        features: List[str],
+        target_col: str,
+    ) -> tuple[str, Any]:
+        """Fit a single model - module-level so joblib can pickle it."""
+
+        if not hasattr(model, "fit"):
+            print(f"[{name}] has no .fit() - skipping")
+            return name, model
+        mask = train[target_col].notna()
+        model.fit(train.loc[mask, features], train.loc[mask, target_col])
+        return name, model
+
     def fit(
         self,
         train: pd.DataFrame,
         features: List[str],
         targets: Optional[List[str]] = None,
+        n_jobs: int = -1
     ) -> "EnsembleModel":
         """Fit all registered models that implement .fit().
 
@@ -71,7 +89,7 @@ class EnsembleModel:
             targets: List of target column names, one per model.
                 If None, all models train on "target".
                 If provided, must be the same length as self.models.
-
+            n_jobs: number of parallel jobs. -1 uses all available cores
         Returns:
             self
         """
@@ -86,16 +104,19 @@ class EnsembleModel:
                 f"targets length ({len(targets)}) must match "
                 f"number of models ({len(self.models)})"
             )
+        # Resolve actual number of cores used
+        if n_jobs == -1:
+            n_cores = os.cpu_count()
+        elif n_jobs < 0:
+            n_cores = max(1, os.cpu_count() + n_jobs + 1)
+        else:
+            n_cores = n_jobs
 
-        for (name, model), target_col in zip(self.models, targets):
-            if not hasattr(model, "fit"):
-                print(f"[{name}] No .fit() method — skipping (using pretrained)")
-                continue
-
-            print(f"[{name}] Training on {target_col}...")
-            mask = train[target_col].notna()
-            model.fit(train.loc[mask, features], train.loc[mask, target_col])
-
+        results = Parallel(n_jobs=n_jobs)(
+            delayed(self._fit_single)(name, model, train, features, target_col)
+            for (name, model), target_col in zip(self.models, targets)
+        )
+        self.models = results
         return self
 
     def predict(self, X: pd.DataFrame) -> np.ndarray:
