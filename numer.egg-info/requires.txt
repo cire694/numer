@@ -1,0 +1,13 @@
+numpy
+pandas
+scipy
+scikit-learn
+lightgbm
+xgboost
+numerapi
+pyarrow
+fastparquet
+
+[dev]
+jupyter
+ipykernel

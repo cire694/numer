@@ -5,4 +5,5 @@
   "reportGeneralTypeIssues": "none",
   "reportOptionalMemberAccess": "none",
   "reportOptionalOperand": "none",
+  "reportPossiblyUnboundVariable": "none",
 }

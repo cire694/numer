@@ -1,0 +1,11 @@
+name: numer
+channels:
+  - defaults
+dependencies:
+  - numpy
+  - pandas
+  - scipy
+  - ipykernel
+  - fastparquet
+  - pyarrow
+prefix: /opt/anaconda3/envs/numer

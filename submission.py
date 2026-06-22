@@ -9,21 +9,47 @@ from config import Config
 
 
 def generate_predictions(model: BaseEstimator, config: Config, data_split: str = "live") -> Tuple[pd.DataFrame, pd.Series]:
-    """Generate predictions for a given split (typically 'live')."""
+    """Generate predictions for a Numerai data split.
+
+    Args:
+        model: Trained estimator used to predict.
+        config: Configuration object with feature and data settings.
+        data_split: Data split to predict on, usually 'live'.
+
+    Returns:
+        A tuple of (era dataframe, prediction series).
+    """
     live_data, features = load_dataset(config, data_split)
     predictions = model.predict(live_data[features])
     return live_data[["era"]].copy(), predictions
 
 
 def format_submission(era_df: pd.DataFrame, predictions: pd.Series) -> pd.DataFrame:
-    """Format predictions into Numerai submission format."""
+    """Format a prediction series into a Numerai submission DataFrame.
+
+    Args:
+        era_df: DataFrame containing era identifiers.
+        predictions: Series of predicted target values.
+
+    Returns:
+        A submission-ready DataFrame with era and prediction columns.
+    """
     submission = era_df.copy()
     submission["prediction"] = predictions
     return submission
 
 
 def submit_predictions(submission_df: pd.DataFrame, config: Config, model_name: Optional[str] = None) -> str:
-    """Submit predictions to Numerai API."""
+    """Submit a formatted submission DataFrame to the Numerai API.
+
+    Args:
+        submission_df: DataFrame in Numerai submission format.
+        config: Configuration object providing version metadata.
+        model_name: Optional submission model name to override config.
+
+    Returns:
+        The Numerai submission ID string.
+    """
     napi = NumerAPI()
     
     # Convert to CSV format (required by API)
@@ -38,7 +64,16 @@ def submit_predictions(submission_df: pd.DataFrame, config: Config, model_name: 
 
 
 def full_submission_pipeline(model: BaseEstimator, config: Config, model_name: Optional[str] = None) -> str:
-    """Execute full submission pipeline."""
+    """Execute the full submission pipeline: generate, format, and submit.
+
+    Args:
+        model: Trained estimator used for live predictions.
+        config: Configuration object with model and data settings.
+        model_name: Optional model name override for the submission.
+
+    Returns:
+        The Numerai submission ID string.
+    """
     print(f"Generating predictions for {config.data_version}...")
     era_df, predictions = generate_predictions(model, config)
     

@@ -1,16 +1,31 @@
 """Utilities for model persistence and common operations."""
 import os
-import pickle
+import cloudpickle
 import json
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 from sklearn.base import BaseEstimator
 from config import Config
+from typing import Protocol
+import numpy as np
 
+class Regressor(Protocol):
+    def fit(self, X, y) -> None: ...
+    def predict(self, X) -> np.ndarray: ...
 
-def save_model(model: BaseEstimator, config: Config, model_name: Optional[str] = None, output_dir: str = "./models") -> str:
-    """Save trained model to disk."""
+def save_model(model: Regressor, config: Config, model_name: Optional[str] = None, output_dir: str = "./models") -> str:
+    """Save a trained model and its config metadata to disk.
+
+    Args:
+        model: Trained estimator to save.
+        config: Configuration object used for training.
+        model_name: Optional override for the saved model name.
+        output_dir: Directory where model files are written.
+
+    Returns:
+        The file path of the saved model pickle.
+    """
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
     name = model_name or config.model_name
@@ -18,7 +33,7 @@ def save_model(model: BaseEstimator, config: Config, model_name: Optional[str] =
     model_path = os.path.join(output_dir, f"{name}_{timestamp}.pkl")
     
     with open(model_path, "wb") as f:
-        pickle.dump(model, f)
+        cloudpickle.dump(model, f)
     
     # Save config alongside model
     config_path = os.path.join(output_dir, f"{name}_{timestamp}_config.json")
@@ -35,15 +50,33 @@ def save_model(model: BaseEstimator, config: Config, model_name: Optional[str] =
 
 
 def load_model(model_path: str) -> BaseEstimator:
-    """Load trained model from disk."""
+    """Load a trained model from disk.
+
+    Args:
+        model_path: Path to the saved pickle file.
+
+    Returns:
+        The deserialized estimator.
+    """
     with open(model_path, "rb") as f:
-        model = pickle.load(f)
+        model = cloudpickle.load(f)
     print(f"Model loaded: {model_path}")
     return model
 
 
 def get_latest_model(model_name: str, models_dir: str = "./models") -> str:
-    """Get the most recently saved model of a given type."""
+    """Get the most recently saved model file for a given model name.
+
+    Args:
+        model_name: Name of the model to search for.
+        models_dir: Directory containing saved model files.
+
+    Returns:
+        Path to the most recently saved model file.
+
+    Raises:
+        FileNotFoundError: If no matching model files are found.
+    """
     import glob
     
     pattern = os.path.join(models_dir, f"{model_name}_*.pkl")

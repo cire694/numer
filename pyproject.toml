@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "numer"
+version = "0.1.0"
+description = "Numerai competition pipeline with ensemble models"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn",
+    "lightgbm",
+    "xgboost",
+    "numerapi",
+    "pyarrow",
+    "fastparquet",
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyter",
+    "ipykernel",
+]
+
+[tool.setuptools]
+packages = ["models", "train_models"]
