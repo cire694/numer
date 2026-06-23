@@ -4,6 +4,23 @@ from typing import List, Optional, Callable, Any
 from joblib import Parallel, delayed
 import os
 
+def _fit_single(
+        name: str, 
+        model: Any, 
+        train: pd.DataFrame, 
+        features: List[str],
+        target_col: str,
+    ) -> tuple[str, Any]:
+        """Fit a single model - module-level so joblib can pickle it."""
+
+        if not hasattr(model, "fit"):
+            print(f"[{name}] has no .fit() - skipping")
+            return name, model
+        mask = train[target_col].notna()
+        model.fit(train.loc[mask, features], train.loc[mask, target_col])
+        return name, model
+
+
 class EnsembleModel:
     """A flexible ensemble of heterogeneous models.
 
@@ -53,22 +70,6 @@ class EnsembleModel:
         """
         self.models.append((name, model))
         return self
-
-    def _fit_single(
-        name: str, 
-        model: Any, 
-        train: pd.DataFrame, 
-        features: List[str],
-        target_col: str,
-    ) -> tuple[str, Any]:
-        """Fit a single model - module-level so joblib can pickle it."""
-
-        if not hasattr(model, "fit"):
-            print(f"[{name}] has no .fit() - skipping")
-            return name, model
-        mask = train[target_col].notna()
-        model.fit(train.loc[mask, features], train.loc[mask, target_col])
-        return name, model
 
     def fit(
         self,
