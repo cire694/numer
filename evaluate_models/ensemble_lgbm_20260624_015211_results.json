@@ -1,0 +1,9 @@
+{
+    "model": "ensemble_lgbm_20260624_015211",
+    "last_train_era": 574,
+    "results": {
+        "mean_corr": 0.01751776398832959, 
+        "std_corr": 0.01577155875522059, 
+        "sharpe": 1.1107186207914284
+    }
+}
