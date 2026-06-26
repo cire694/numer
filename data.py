@@ -9,6 +9,28 @@ def get_target_cols(pq_path: str) -> List[str]:
     schema = pq.read_schema(pq_path)
     return [name for name in schema.names if name.startswith("target")]
 
+def get_features(config: Config, split: str = "train") -> List[str]:
+    """Get feature list for a given config and split without loading data.
+
+    Args:
+        config: Configuration object with feature_set and data_version.
+        split: Data split ('train', 'validation', or 'live').
+
+    Returns:
+        List of feature column names for the configured feature_set.
+    """
+    dest_folder = os.path.join(config.data_dir, split)
+    os.makedirs(dest_folder, exist_ok=True)
+
+    json_out = os.path.join(dest_folder, "features.json")
+    if not os.path.exists(json_out):
+        print(f"{json_out} does not exist, downloading features.json")
+        napi = NumerAPI()
+        napi.download_dataset(f"{config.data_version}/features.json", json_out)
+    
+    features = json.load(open(json_out))["feature_sets"][config.feature_set]
+    return features
+
 def load_dataset(config: Config, split: str = "train") -> Tuple[pd.DataFrame, List[str]]:
     """Load a Numerai dataset split and cache it locally.
 
