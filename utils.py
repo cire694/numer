@@ -9,18 +9,22 @@ from sklearn.base import BaseEstimator
 from config import Config
 from typing import Protocol
 import numpy as np
+import lightgbm as lgb
+from xgboost import XGBRegressor
+from sklearn.linear_model import Ridge, LinearRegression
 
 class Regressor(Protocol):
     def fit(self, X, y) -> None: ...
     def predict(self, X) -> np.ndarray: ...
 
-def save_model(model: Regressor, config: Config, model_name: Optional[str] = None, output_dir: str = "./models") -> str:
+def save_model(model: Regressor, config: Config, model_name: Optional[str] = None, last_train_era: Optional[int] = None, output_dir: str = "./models") -> str:
     """Save a trained model and its config metadata to disk.
 
     Args:
         model: Trained estimator to save.
         config: Configuration object used for training.
         model_name: Optional override for the saved model name.
+        last_train_era: Optional last training era for embargo calculation.
         output_dir: Directory where model files are written.
 
     Returns:
@@ -37,13 +41,17 @@ def save_model(model: Regressor, config: Config, model_name: Optional[str] = Non
     
     # Save config alongside model
     config_path = os.path.join(output_dir, f"{name}_{timestamp}_config.json")
+    config_dict = {
+        "model_name": config.model_name,
+        "data_version": config.data_version,
+        "feature_set": config.feature_set,
+        "model_params": config.model_params,
+    }
+    if last_train_era is not None:
+        config_dict["last_train_era"] = last_train_era
+    
     with open(config_path, "w") as f:
-        json.dump({
-            "model_name": config.model_name,
-            "data_version": config.data_version,
-            "feature_set": config.feature_set,
-            "model_params": config.model_params,
-        }, f, indent=2)
+        json.dump(config_dict, f, indent=2)
     
     print(f"Model saved: {model_path}")
     return model_path
@@ -62,6 +70,34 @@ def load_model(model_path: str) -> BaseEstimator:
         model = cloudpickle.load(f)
     print(f"Model loaded: {model_path}")
     return model
+
+
+def build_model(config: Config) -> BaseEstimator:
+    """Build and return a model instance based on config.
+
+    Args:
+        config: Configuration object with model selection and hyperparameters.
+
+    Returns:
+        An initialized scikit-learn compatible estimator.
+
+    Raises:
+        ValueError: If the configured model name is not recognized or is 'none'.
+    """
+    model_map = {
+        "xgboost": XGBRegressor,
+        "lgbm": lgb.LGBMRegressor,
+        "ridge": Ridge,
+        "linear": LinearRegression,
+    }
+    
+    if config.model_name == "none":
+        raise ValueError("Cannot build model with model_name='none'. Use this only for submit() with pre-trained models.")
+    if config.model_name not in model_map:
+        raise ValueError(f"Model {config.model_name} not recognized")
+
+    model_class = model_map[config.model_name]
+    return model_class(**config.model_params)
 
 
 def get_latest_model(model_name: str, models_dir: str = "./models") -> str:

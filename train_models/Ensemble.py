@@ -4,7 +4,7 @@ from typing import List, Optional, Callable, Any
 from joblib import Parallel, delayed
 import os
 
-def _fit_single(
+def fit_single(
         name: str, 
         model: Any, 
         train: pd.DataFrame, 
@@ -113,8 +113,8 @@ class EnsembleModel:
         else:
             n_cores = n_jobs
 
-        results = Parallel(n_jobs=n_jobs)(
-            delayed(self._fit_single)(name, model, train, features, target_col)
+        results = Parallel(n_jobs=n_jobs, backend='loky', max_nbytes='1G')(
+            delayed(fit_single)(name, model, train, features, target_col)
             for (name, model), target_col in zip(self.models, targets)
         )
         self.models = results

@@ -14,7 +14,7 @@ config = Config(
     }
 )
 
-validation, model = run(config)
+validation, model, last_train_era = run(config)
 print(validation)
-save_model(model, config, "lgbm")
+save_model(model, config, "lgbm", last_train_era=last_train_era)
 

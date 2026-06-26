@@ -4,14 +4,14 @@ from joblib import Parallel, delayed
 from data import load_dataset
 from config import Config
 from train_models.Ensemble import EnsembleModel
-from utils import save_model, load_model
+from utils import save_model, load_model, build_model
 
 
 if __name__ == "__main__":
     
     config = Config(model_name='none')
     train, features = load_dataset(config, split="train")
-    val, _ = load_dataset(config, split="validation")
+    # val, _ = load_dataset(config, split="validation")
 
     params = {
         "num_threads": 4, #cores per model
@@ -30,11 +30,13 @@ if __name__ == "__main__":
         ensemble.add_model(target_col, lgb.LGBMRegressor(**params))    
 
     print("running target_ensemble")
-    ensemble.fit(train, features, targets=target_cols)
+    print(f"Number of targets: {len(target_cols)}")
+    ensemble.fit(train, features, targets=target_cols, n_jobs=4)
 
     print("saving model")
-
-    save_model(ensemble, config)
+    
+    last_train_era = int(train["era"].unique()[-1])
+    save_model(ensemble, config, last_train_era=last_train_era)
     print("finished saving successfully")
 
     # loaded = load_model("path.pkl")
