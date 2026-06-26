@@ -6,7 +6,7 @@ class Config:
     feature_set: str = "medium"
     data_dir: str = "./data/"
     val_downsample: int = 4
-    model_name: str = "none" # see MODEL_REGISTRY in models/__init__.py
+    model_name: str = "none" # 'xgboost', 'lgbm', 'ridge', or 'linear'
     model_params: dict = field(default_factory=lambda:{
     })
     

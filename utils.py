@@ -9,9 +9,7 @@ from sklearn.base import BaseEstimator
 from config import Config
 from typing import Protocol
 import numpy as np
-import lightgbm as lgb
-from xgboost import XGBRegressor
-from sklearn.linear_model import Ridge, LinearRegression
+
 
 class Regressor(Protocol):
     def fit(self, X, y) -> None: ...
@@ -71,33 +69,6 @@ def load_model(model_path: str) -> BaseEstimator:
     print(f"Model loaded: {model_path}")
     return model
 
-
-def build_model(config: Config) -> BaseEstimator:
-    """Build and return a model instance based on config.
-
-    Args:
-        config: Configuration object with model selection and hyperparameters.
-
-    Returns:
-        An initialized scikit-learn compatible estimator.
-
-    Raises:
-        ValueError: If the configured model name is not recognized or is 'none'.
-    """
-    model_map = {
-        "xgboost": XGBRegressor,
-        "lgbm": lgb.LGBMRegressor,
-        "ridge": Ridge,
-        "linear": LinearRegression,
-    }
-    
-    if config.model_name == "none":
-        raise ValueError("Cannot build model with model_name='none'. Use this only for submit() with pre-trained models.")
-    if config.model_name not in model_map:
-        raise ValueError(f"Model {config.model_name} not recognized")
-
-    model_class = model_map[config.model_name]
-    return model_class(**config.model_params)
 
 
 def get_latest_model(model_name: str, models_dir: str = "./models") -> str:

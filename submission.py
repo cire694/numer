@@ -4,7 +4,6 @@ import pandas as pd
 from sklearn.base import BaseEstimator
 from numerapi import NumerAPI
 from data import load_dataset
-from models import build_model
 from config import Config
 
 
