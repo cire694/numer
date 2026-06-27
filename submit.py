@@ -3,10 +3,11 @@ from sklearn.base import BaseEstimator
 from config import Config
 from submission import full_submission_pipeline
 from utils import load_model, get_latest_model
+from dotenv import load_dotenv
 
 
 
-def submit(config: Optional[Config] = None, model: Optional[BaseEstimator] = None, model_path: Optional[str] = None) -> None:
+def submit(config: Optional[Config] = None, model: Optional[BaseEstimator] = None, model_path: Optional[str] = None, model_name = None) -> None:
     """Generate and submit predictions using a trained model or a saved model file.
 
     Args:
@@ -17,6 +18,8 @@ def submit(config: Optional[Config] = None, model: Optional[BaseEstimator] = Non
     """
     import json
     import os
+
+    load_dotenv()
     
     if model is None:
         if model_path is None:
@@ -43,9 +46,12 @@ def submit(config: Optional[Config] = None, model: Optional[BaseEstimator] = Non
     if config is None:
         raise ValueError("Could not determine config. Provide config or model_path with config.json")
     
-    full_submission_pipeline(model, config)
+    full_submission_pipeline(model, config, model_name)
 
 if __name__ == "__main__":
     
     #submit whatever
-    print("nothing to submit")
+    model_name = "ensemble_lgbm" # needs to exist in numer account
+    submit(model_path="models/ensemble_lgbm_20260624_015211.pkl", model_name = model_name)
+
+    # print("nothing to submit")

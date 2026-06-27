@@ -11,7 +11,6 @@ import os
 
 if __name__ == "__main__":
 
-    last_train_era =   # import from .json usually
 
     model_name = "ensemble_lgbm_20260624_015211"
     
@@ -24,6 +23,7 @@ if __name__ == "__main__":
         feature_set=config_json["feature_set"],
         model_params=config_json["model_params"],
     )
+    last_train_era = config_json["last_train_era"]
 
     features = get_features(config, "train")
     model = load_model(f"models/{model_name}.pkl")

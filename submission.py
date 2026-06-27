@@ -16,11 +16,14 @@ def generate_predictions(model: BaseEstimator, config: Config, data_split: str =
         data_split: Data split to predict on, usually 'live'.
 
     Returns:
-        A tuple of (era dataframe, prediction series).
+        A tuple of (id_df, predictions) where id_df is a single-column DataFrame
+        with the row IDs required for Numerai submission, and predictions is an
+        array of predicted target values aligned to the same rows.
     """
     live_data, features = load_dataset(config, data_split)
     predictions = model.predict(live_data[features])
-    return live_data[["era"]].copy(), predictions
+    id_df = live_data.index.to_frame(name="id").reset_index(drop=True)
+    return id_df, predictions
 
 
 def format_submission(era_df: pd.DataFrame, predictions: pd.Series) -> pd.DataFrame:
@@ -50,15 +53,16 @@ def submit_predictions(submission_df: pd.DataFrame, config: Config, model_name: 
         The Numerai submission ID string.
     """
     napi = NumerAPI()
-    
-    # Convert to CSV format (required by API)
-    csv_data = submission_df.to_csv(index=False)
-    
-    # Submit using version and model name
-    version = config.data_version
     name = model_name or config.model_name
-    
-    submission_id = napi.upload_predictions(csv_data, model_name=name, version=version)
+
+    # Resolve model name -> UUID
+    models = napi.get_models()
+    if name not in models:
+        raise ValueError(f"Model '{name}' not found. Available models: {list(models.keys())}")
+    model_id = models[name]
+
+    # Upload directly from DataFrame (no need to convert to CSV manually)
+    submission_id = napi.upload_predictions(df=submission_df, model_id=model_id)
     return submission_id
 
 
