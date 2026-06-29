@@ -1,0 +1,53 @@
+Job started: Mon Jun 29 16:09:58 EDT 2026
+Running on node: node1619
+CPUs allocated: 16
+
+[intelligence] training on 14 features...
+[intelligence] {'mean_corr': 0.0013481902802470844, 'std_corr': 0.011155474673377491, 'sharpe': 0.12085458662413862, 'n_features': 14}
+
+[charisma] training on 116 features...
+[charisma] {'mean_corr': 0.006089554704999051, 'std_corr': 0.0121768861306804, 'sharpe': 0.5000912909628061, 'n_features': 116}
+
+[strength] training on 54 features...
+[strength] {'mean_corr': 0.005186497487810597, 'std_corr': 0.013423414710006885, 'sharpe': 0.3863769092929959, 'n_features': 54}
+
+[dexterity] training on 21 features...
+[dexterity] {'mean_corr': 0.0044190040432528195, 'std_corr': 0.013621136954523596, 'sharpe': 0.32442255429971745, 'n_features': 21}
+
+[constitution] training on 134 features...
+[constitution] {'mean_corr': 0.0048428121674491086, 'std_corr': 0.013393154978714707, 'sharpe': 0.3615886006803944, 'n_features': 134}
+
+[wisdom] training on 56 features...
+[wisdom] {'mean_corr': 0.005783402682827596, 'std_corr': 0.01187095107032548, 'sharpe': 0.48718949716545545, 'n_features': 56}
+
+[agility] training on 58 features...
+[agility] {'mean_corr': 0.006714906154011658, 'std_corr': 0.014903284787484813, 'sharpe': 0.4505655128895188, 'n_features': 58}
+
+[serenity] training on 34 features...
+[serenity] {'mean_corr': 0.005982916985599466, 'std_corr': 0.013903255924814086, 'sharpe': 0.43032488346282594, 'n_features': 34}
+
+[sunshine] training on 130 features...
+[sunshine] {'mean_corr': 0.005959110635791629, 'std_corr': 0.015088838196747143, 'sharpe': 0.3949350213773447, 'n_features': 130}
+rain: no features available in current feature set, skipping
+
+[midnight] training on 122 features...
+[midnight] {'mean_corr': 0.010735206555261579, 'std_corr': 0.017118296960244195, 'sharpe': 0.6271188413306062, 'n_features': 122}
+
+[faith] training on 75 features...
+[faith] {'mean_corr': 0.004567750520372398, 'std_corr': 0.012452408677697084, 'sharpe': 0.36681662468671444, 'n_features': 75}
+
+=== Per-group results (sorted by Sharpe) ===
+midnight              sharpe=0.627  mean_corr=0.0107  std_corr=0.0171  n_features=122
+charisma              sharpe=0.500  mean_corr=0.0061  std_corr=0.0122  n_features=116
+wisdom                sharpe=0.487  mean_corr=0.0058  std_corr=0.0119  n_features=56
+agility               sharpe=0.451  mean_corr=0.0067  std_corr=0.0149  n_features=58
+serenity              sharpe=0.430  mean_corr=0.0060  std_corr=0.0139  n_features=34
+sunshine              sharpe=0.395  mean_corr=0.0060  std_corr=0.0151  n_features=130
+strength              sharpe=0.386  mean_corr=0.0052  std_corr=0.0134  n_features=54
+faith                 sharpe=0.367  mean_corr=0.0046  std_corr=0.0125  n_features=75
+constitution          sharpe=0.362  mean_corr=0.0048  std_corr=0.0134  n_features=134
+dexterity             sharpe=0.324  mean_corr=0.0044  std_corr=0.0136  n_features=21
+intelligence          sharpe=0.121  mean_corr=0.0013  std_corr=0.0112  n_features=14
+
+Saved to ./evaluate_models/ensemble_group_results.json
+Job finished: Mon Jun 29 16:37:53 EDT 2026

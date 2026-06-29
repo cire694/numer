@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=evaluate_models                  # name shown in squeue
-#SBATCH --output=logs/%j_evaluate_models.out        # stdout log (%j = job id)
-#SBATCH --error=logs/%j_evaluate_models.err         # stderr log
+#SBATCH --job-name=eval_ensemble                    # name shown in squeue
+#SBATCH --output=logs/%j_eval_ensemble.out          # stdout log (%j = job id)
+#SBATCH --error=logs/%j_eval_ensemble.err           # stderr log
 #SBATCH --time=08:00:00                             # max wall time (HH:MM:SS)
 #SBATCH --nodes=1                                   # single node (joblib doesn't span nodes)
 #SBATCH --ntasks=1                                  # one task (our python script)
@@ -16,7 +16,14 @@ echo "CPUs allocated: $SLURM_CPUS_PER_TASK"
 
 # Load conda — path may differ, check with: which conda
 module load miniforge
-conda activate numer
+source /home/$USER/.bashrc
+
+# Use the conda env interpreter directly so Slurm jobs do not rely on PATH
+PYTHON_BIN="${PYTHON_BIN:-/home/$USER/.conda/envs/numer/bin/python}"
+if [ ! -x "$PYTHON_BIN" ]; then
+    echo "Error: Python not found at $PYTHON_BIN" >&2
+    exit 1
+fi
 
 # Move to project directory
 cd /home/$USER/numer
@@ -25,6 +32,6 @@ cd /home/$USER/numer
 mkdir -p logs
 
 # ── Run training ─────────────────────────────────────────────────
-"$PYTHON_BIN" -m evaluate_models.evaluate_models
+"$PYTHON_BIN" -m evaluate_models.eval_ensemble
 
 echo "Job finished: $(date)"
