@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Optional
 from sklearn.base import BaseEstimator
 from config import Config
-from typing import Protocol
+from typing import Protocol, Any
 import numpy as np
 
 
@@ -68,6 +68,29 @@ def load_model(model_path: str) -> BaseEstimator:
         model = cloudpickle.load(f)
     print(f"Model loaded: {model_path}")
     return model
+
+def load_model_with_config(model_path: str) -> tuple[Any, dict]:
+    """Load a trained model and its associated config metadata.
+
+    Args:
+        model_path: Path to the saved pickle file.
+
+    Returns:
+        Tuple of (model, config_dict).
+    """
+    with open(model_path, "rb") as f:
+        model = cloudpickle.load(f)
+
+    config_path = model_path.replace(".pkl", "_config.json")
+    if os.path.exists(config_path):
+        with open(config_path) as f:
+            config_dict = json.load(f)
+    else:
+        config_dict = {}
+        print(f"Warning: no config found at {config_path}")
+
+    print(f"Model loaded: {model_path}")
+    return model, config_dict
 
 
 
