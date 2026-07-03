@@ -16,14 +16,6 @@ echo "CPUs allocated: $SLURM_CPUS_PER_TASK"
 
 # Load conda — path may differ, check with: which conda
 module load miniforge
-source /home/$USER/.bashrc
-
-# Use the conda env interpreter directly so Slurm jobs do not rely on PATH
-PYTHON_BIN="${PYTHON_BIN:-/home/$USER/.conda/envs/numer/bin/python}"
-if [ ! -x "$PYTHON_BIN" ]; then
-    echo "Error: Python not found at $PYTHON_BIN" >&2
-    exit 1
-fi
 
 # Move to project directory
 cd /home/$USER/numer
@@ -32,6 +24,6 @@ cd /home/$USER/numer
 mkdir -p logs
 
 # ── Run training ─────────────────────────────────────────────────
-"$PYTHON_BIN" -m train_models.ensemble_lgbm
+conda run -n numer python -m train_models.ensemble_lgbm
 
 echo "Job finished: $(date)"

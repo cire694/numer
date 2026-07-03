@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=eval_ensemble                    # name shown in squeue
-#SBATCH --output=logs/%j_eval_ensemble.out          # stdout log (%j = job id)
-#SBATCH --error=logs/%j_eval_ensemble.err           # stderr log
+#SBATCH --job-name=deep_ensemble_lgbm               # name shown in squeue
+#SBATCH --output=logs/%j_deep_ensemble_lgbm.out     # stdout log (%j = job id)
+#SBATCH --error=logs/%j_deep_ensemble_lgbm.err      # stderr log
 #SBATCH --time=08:00:00                             # max wall time (HH:MM:SS)
 #SBATCH --nodes=1                                   # single node (joblib doesn't span nodes)
 #SBATCH --ntasks=1                                  # one task (our python script)
@@ -24,6 +24,6 @@ cd /home/$USER/numer
 mkdir -p logs
 
 # ── Run training ─────────────────────────────────────────────────
-conda run -n numer python -m evaluate_models.eval_ensemble
+conda run -n numer python -m train_models.deep_ensemble_lgbm
 
 echo "Job finished: $(date)"

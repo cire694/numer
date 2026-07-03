@@ -16,7 +16,6 @@ echo "CPUs allocated: $SLURM_CPUS_PER_TASK"
 
 # Load conda — path may differ, check with: which conda
 module load miniforge
-conda activate numer
 
 # Move to project directory
 cd /home/$USER/numer
@@ -25,6 +24,6 @@ cd /home/$USER/numer
 mkdir -p logs
 
 # ── Run training ─────────────────────────────────────────────────
-"$PYTHON_BIN" -m evaluate_models.evaluate_models
+conda run -n numer python -m evaluate_models.evaluate_models
 
 echo "Job finished: $(date)"

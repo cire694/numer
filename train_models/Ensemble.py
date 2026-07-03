@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from typing import List, Optional, Callable, Any
+from typing import List, Optional, Callable, Any, Union
 from joblib import Parallel, delayed
 import os
 
@@ -10,14 +10,35 @@ def fit_single(
         train: pd.DataFrame, 
         features: List[str],
         target_col: str,
+        val: Optional[pd.DataFrame] = None,
+        callbacks: Optional[List[Callable]] = None,
     ) -> tuple[str, Any]:
         """Fit a single model - module-level so joblib can pickle it."""
 
         if not hasattr(model, "fit"):
             print(f"[{name}] has no .fit() - skipping")
             return name, model
+        
         mask = train[target_col].notna()
-        model.fit(train.loc[mask, features], train.loc[mask, target_col])
+        X_train, y_train = train.loc[mask, features], train.loc[mask, target_col]
+
+        fit_kwargs = {}
+        
+
+        # Only wire up eval_set/callbacks if a validation frame was given
+        # AND the underlying model's fit() actually accepts them (e.g. LightGBM/XGBoost).
+        # This keeps the ensemble generic for models like sklearn's Ridge that don't.
+        if val is not None and target_col in val.columns:
+            import inspect
+            fit_sig = inspect.signature(model.fit).parameters
+            if "eval_set" in fit_sig:
+                val_mask = val[target_col].notna()
+                X_val, y_val = val.loc[val_mask, features], val.loc[val_mask, target_col]
+                fit_kwargs["eval_set"] = [(X_val, y_val)]
+                if callbacks is not None and "callbacks" in fit_sig:
+                    fit_kwargs["callbacks"] = callbacks
+
+        model.fit(X_train, y_train, **fit_kwargs)
         return name, model
 
 
@@ -52,7 +73,7 @@ class EnsembleModel:
                     lambda x: np.average(x, axis=0, weights=[0.6, 0.4])  → weighted
         """
         self.models: List[tuple[str, Any]] = []
-        self.features: Optional[List[str]] = None
+        self.features: Optional[List[List[str]]] = None
         self.agg_fn = agg_fn or (lambda x: np.mean(x, axis=0))
 
     def add_model(self, name: str, model: Any) -> "EnsembleModel":
@@ -74,8 +95,10 @@ class EnsembleModel:
     def fit(
         self,
         train: pd.DataFrame,
-        features: List[str],
+        features: Union[List[str], List[List[str]]],
         targets: Optional[List[str]] = None,
+        val: Optional[pd.DataFrame] = None,
+        callbacks: Optional[List[Callable]] = None,
         n_jobs: int = -1
     ) -> "EnsembleModel":
         """Fit all registered models that implement .fit().
@@ -94,17 +117,37 @@ class EnsembleModel:
         Returns:
             self
         """
-        self.features = features
-
+        n_models = len(self.models)
         # default: all models train on the primary target
         if targets is None:
-            targets = ["target"] * len(self.models)
+            targets = ["target"] * n_models
+        elif isinstance(targets, str):
+            targets = [targets] * n_models
 
-        if len(targets) != len(self.models):
+        if len(targets) != n_models:
             raise ValueError(
                 f"targets length ({len(targets)}) must match "
-                f"number of models ({len(self.models)})"
+                f"number of models ({n_models})"
             )
+
+         # --- features: allow a flat list (broadcast) or one list per model ---
+        if len(features) == 0:
+            raise ValueError("features must be non-empty")
+        if isinstance(features[0], str):
+            # flat list of column names -> same features for every model
+            per_model_features = [features] * n_models
+        else:
+            # list of lists -> one feature subset per model
+            per_model_features = list(features)
+            if len(per_model_features) != n_models:
+                raise ValueError(
+                    f"features length ({len(per_model_features)}) must match "
+                    f"number of models ({n_models}) when passing per-model feature lists"
+                )
+
+        self.features = per_model_features
+
+
         # Resolve actual number of cores used
         if n_jobs == -1:
             n_cores = os.cpu_count()
@@ -113,9 +156,9 @@ class EnsembleModel:
         else:
             n_cores = n_jobs
 
-        results = Parallel(n_jobs=n_jobs, backend='loky', max_nbytes='1G')(
-            delayed(fit_single)(name, model, train, features, target_col)
-            for (name, model), target_col in zip(self.models, targets)
+        results = Parallel(n_jobs=n_cores, backend='loky', max_nbytes='1G')(
+            delayed(fit_single)(name, model, train, features, target_col, val, callbacks)
+            for (name, model), features, target_col in zip(self.models, per_model_features, targets)
         )
         self.models = results
         return self
@@ -138,8 +181,8 @@ class EnsembleModel:
             raise RuntimeError("Ensemble has not been fitted. Call fit() first.")
 
         all_preds = []
-        for name, model in self.models:
-            preds = model.predict(X[self.features])
+        for (name, model), features in zip(self.models, self.features):
+            preds = model.predict(X[features])
             all_preds.append(preds)
             print(f"[{name}] predicted {len(preds)} rows")
 

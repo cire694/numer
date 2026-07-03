@@ -6,4 +6,5 @@
   "reportOptionalMemberAccess": "none",
   "reportOptionalOperand": "none",
   "reportPossiblyUnboundVariable": "none",
+  "reportAssignmentType": "none",
 }

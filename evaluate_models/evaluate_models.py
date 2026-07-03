@@ -5,14 +5,14 @@ from config import Config
 from data import get_features
 from pathlib import Path
 import json
-import os
 
 
 
 if __name__ == "__main__":
 
 
-    model_name = "ensemble_lgbm_20260624_015211"
+    # model_name = "ensemble_lgbm_20260624_015211"
+    model_name = 'deep_feature_ensemble_20260703_030743'
     
     with open(f"models/{model_name}_config.json", "r") as f:
         config_json = json.load(f)

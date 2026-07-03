@@ -1,0 +1,14 @@
+Job started: Fri Jul  3 02:42:19 EDT 2026
+Running on node: node3112
+CPUs allocated: 16
+finish loading train
+finish loading val
+finish loading feature groups
+finish smoke test
+running feature_ensemble: each tree trains on a different feature group
+Number of features: 12
+saving model
+Model saved: ./models/deep_feature_ensemble_20260703_030743.pkl
+finished saving successfully
+
+Job finished: Fri Jul  3 03:07:48 EDT 2026

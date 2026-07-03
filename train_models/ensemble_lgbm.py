@@ -1,6 +1,4 @@
 import lightgbm as lgb
-from joblib import Parallel, delayed
-
 from data import load_dataset
 from config import Config
 from train_models.Ensemble import EnsembleModel
@@ -16,6 +14,7 @@ if __name__ == "__main__":
     params = {
         "num_threads": 4, #cores per model
         "num_leaves": 31,
+        "max_depth": 7,
         "colsample_bytree": 0.1,
         "learning_rate": 0.01,
         "n_estimators": 2000,

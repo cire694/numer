@@ -62,3 +62,9 @@ def load_dataset(config: Config, split: str = "train") -> Tuple[pd.DataFrame, Li
 
     df = pd.read_parquet(pq_out, columns=cols)
     return df, features
+
+def load_feature_groups(data_path = "data/train/features.json") -> dict:
+    """Returns feature_sets: dict mapping group name -> list of feature column names."""
+    with open(data_path) as f:
+        feature_metadata = json.load(f)
+    return feature_metadata["feature_sets"]
