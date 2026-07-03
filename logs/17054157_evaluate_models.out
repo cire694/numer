@@ -1,0 +1,20 @@
+Job started: Fri Jul  3 03:17:19 EDT 2026
+Running on node: node3307
+CPUs allocated: 16
+Model loaded: models/deep_feature_ensemble_20260703_030743.pkl
+[intelligence] predicted 1012305 rows
+[charisma] predicted 1012305 rows
+[strength] predicted 1012305 rows
+[dexterity] predicted 1012305 rows
+[constitution] predicted 1012305 rows
+[wisdom] predicted 1012305 rows
+[agility] predicted 1012305 rows
+[serenity] predicted 1012305 rows
+[sunshine] predicted 1012305 rows
+[rain] predicted 1012305 rows
+[midnight] predicted 1012305 rows
+[faith] predicted 1012305 rows
+{'mean_corr': 0.018603163277616103, 'std_corr': 0.016835388276297464, 'sharpe': 1.105003518321433}
+Saved to evaluate_models/deep_feature_ensemble_20260703_030743_results.json
+
+Job finished: Fri Jul  3 03:25:25 EDT 2026

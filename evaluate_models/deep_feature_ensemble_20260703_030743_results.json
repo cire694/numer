@@ -1,0 +1,7 @@
+{
+  "model": "deep_feature_ensemble_20260703_030743",
+  "last_train_era": 574,
+  "mean_corr": 0.018603163277616103,
+  "std_corr": 0.016835388276297464,
+  "sharpe": 1.105003518321433
+}

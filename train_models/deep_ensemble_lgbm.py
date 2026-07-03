@@ -1,8 +1,11 @@
 import lightgbm as lgb
+import json
+from pathlib import Path
 from data import load_dataset, load_feature_groups
 from config import Config
 from train_models.Ensemble import EnsembleModel
 from utils import save_model
+from evaluate import validate
 
 """
 Difference: 
@@ -74,8 +77,27 @@ if __name__ == "__main__":
     print("saving model")
     
     last_train_era = int(train["era"].unique()[-1])
-    save_model(ensemble, config, last_train_era=last_train_era)
+    model_path = save_model(ensemble, config, last_train_era=last_train_era)
     print("finished saving successfully")
+
+    # ── Evaluate the model ───────────────────────────────────────────────────
+    # Use the trained ensemble directly (already in memory)
+    model_name_with_timestamp = Path(model_path).stem
+    
+    results = validate(ensemble, features, last_train_era=last_train_era)
+    
+    # Save results to JSON
+    output = {
+        "model": model_name_with_timestamp,
+        "last_train_era": last_train_era,
+        **results,
+    }
+    out_path = Path(f"evaluate_models/{model_name_with_timestamp}_results.json")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(output, indent=2))
+    print(results)
+    print(f"Saved to {out_path}")
+
 
 
     

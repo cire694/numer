@@ -8,11 +8,17 @@ import json
 
 
 
-if __name__ == "__main__":
-
-
+def evaluate_model(model_name: str):
+    """
+    Evaluates the model located at models/{model_name}. 
+    Requires that the following exists:
+        - models/{model_name}.pkl
+        - models/{model_name}_config.json
+    Saves results to evaluate_models/{model_name}_results.json
+    """
+    
     # model_name = "ensemble_lgbm_20260624_015211"
-    model_name = 'deep_feature_ensemble_20260703_030743'
+    # model_name = 'deep_feature_ensemble_20260703_030743'
     
     with open(f"models/{model_name}_config.json", "r") as f:
         config_json = json.load(f)
