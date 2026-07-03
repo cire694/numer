@@ -24,6 +24,6 @@ cd /home/$USER/numer
 mkdir -p logs
 
 # ── Run training ─────────────────────────────────────────────────
-conda run -n numer python -m train_models.deep_ensemble_lgbm
+conda run -n numer python -m train_models.deep_feature_ensemble
 
 echo "Job finished: $(date)"

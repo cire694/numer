@@ -43,22 +43,26 @@ def load_dataset(config: Config, split: str = "train") -> Tuple[pd.DataFrame, Li
     """
     napi = NumerAPI()
     dest_folder = os.path.join(config.data_dir, split)
-    os.makedirs(dest_folder, exist_ok = True)
+    os.makedirs(dest_folder, exist_ok=True)
 
     json_out = os.path.join(dest_folder, "features.json")
     if not os.path.exists(json_out):
-        print(f"{json_out} does not exist, downloading {json_out}/features.json")
+        print(f"{json_out} does not exist, downloading features.json")
         napi.download_dataset(f"{config.data_version}/features.json", json_out)
     features = json.load(open(json_out))["feature_sets"][config.feature_set]
 
     pq_out = os.path.join(dest_folder, f"{split}.parquet")
-    if not os.path.exists(pq_out):
-        print(f"{pq_out} does not exist, downloading {pq_out}/features.json")
-        napi.download_dataset(f"{config.data_version}/{split}.parquet", pq_out)
-    
-    cols = ["era"] + get_target_cols(pq_out) + features
+
+    # live data changes every round — always re-download, never use cache
     if split == "live":
-        cols = ["era"] + features # live data has no target
+        print(f"Downloading fresh live data to {pq_out}...")
+        napi.download_dataset(f"{config.data_version}/{split}.parquet", pq_out)
+        cols = ["era"] + features
+    else:
+        if not os.path.exists(pq_out):
+            print(f"{pq_out} does not exist, downloading...")
+            napi.download_dataset(f"{config.data_version}/{split}.parquet", pq_out)
+        cols = ["era"] + get_target_cols(pq_out) + features
 
     df = pd.read_parquet(pq_out, columns=cols)
     return df, features

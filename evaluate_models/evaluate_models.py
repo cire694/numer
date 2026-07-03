@@ -8,7 +8,7 @@ import json
 
 
 
-def evaluate_model(model_name: str):
+def evaluate_model(model_name: str, downsample: int=4):
     """
     Evaluates the model located at models/{model_name}. 
     Requires that the following exists:
@@ -34,7 +34,7 @@ def evaluate_model(model_name: str):
     features = get_features(config, "train")
     model = load_model(f"models/{model_name}.pkl")
 
-    results = validate(model, features, last_train_era=last_train_era)
+    results = validate(model, features, last_train_era=last_train_era, downsample=downsample)
 
     output = {
         "model": model_name,

@@ -51,7 +51,9 @@ def submit(config: Optional[Config] = None, model: Optional[BaseEstimator] = Non
 if __name__ == "__main__":
     
     #submit whatever
-    model_name = "ensemble_lgbm" # needs to exist in numer account
-    submit(model_path="models/ensemble_lgbm_20260624_015211.pkl", model_name = model_name)
+    model_name = "feature_ensemble" # needs to exist in numer account
+    model_path = "models/deep_feature_ensemble_20260703_030743.pkl"
+    submit(model_path=model_path, model_name = model_name)
+    
 
     # print("nothing to submit")
