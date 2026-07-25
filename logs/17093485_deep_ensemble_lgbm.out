@@ -1,0 +1,28 @@
+Job started: Fri Jul  3 18:17:22 EDT 2026
+Running on node: node2704
+CPUs allocated: 16
+finish loading train
+finish loading val
+finish loading feature groups
+finish smoke test
+running feature_ensemble: each tree trains on a different feature group
+Number of features: 12
+saving model
+Model saved: ./models/deep_feature_ensemble_20260703_184211.pkl
+finished saving successfully
+[intelligence] predicted 4040397 rows
+[charisma] predicted 4040397 rows
+[strength] predicted 4040397 rows
+[dexterity] predicted 4040397 rows
+[constitution] predicted 4040397 rows
+[wisdom] predicted 4040397 rows
+[agility] predicted 4040397 rows
+[serenity] predicted 4040397 rows
+[sunshine] predicted 4040397 rows
+[rain] predicted 4040397 rows
+[midnight] predicted 4040397 rows
+[faith] predicted 4040397 rows
+{'mean_corr': 0.01839745667468787, 'std_corr': 0.01732064315569104, 'sharpe': 1.0621693726565242}
+Saved to evaluate_models/deep_feature_ensemble_20260703_184211_results.json
+
+Job finished: Fri Jul  3 19:15:42 EDT 2026

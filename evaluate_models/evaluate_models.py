@@ -45,3 +45,8 @@ def evaluate_model(model_name: str, downsample: int=4):
     out_path.write_text(json.dumps(output, indent=2))
     print(results)
     print(f"Saved to {out_path}")
+
+if __name__ == "__main__":
+    
+    model_name = 'deep_feature_ensemble_20260703_030743'
+    evaluate_model(model_name=model_name, downsample=1)
