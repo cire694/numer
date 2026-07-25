@@ -163,14 +163,26 @@ class EnsembleModel:
         self.models = results
         return self
 
-    def predict(self, X: pd.DataFrame) -> np.ndarray:
+    def predict(
+        self,
+        X: pd.DataFrame,
+        live_benchmark_models: Optional[pd.DataFrame] = None,
+    ) -> Union[np.ndarray, pd.DataFrame]:
         """Aggregate predictions from all models.
+
+        This preserves the normal training-time interface via ``predict(X)``
+        while also supporting Numerai's live prediction signature:
+        ``predict(live_features, live_benchmark_models)``.
 
         Args:
             X: DataFrame containing feature columns.
+            live_benchmark_models: Optional benchmark-model DataFrame passed by
+                Numerai's submission pipeline. It is accepted for compatibility
+                but not used by this ensemble.
 
         Returns:
-            Array of shape (n_rows,) with aggregated predictions.
+            Either an array of shape (n_rows,) for standard usage, or a DataFrame
+            with a ``prediction`` column for Numerai-style live inference.
 
         Raises:
             RuntimeError: If no models have been added.
@@ -188,7 +200,13 @@ class EnsembleModel:
 
         # shape: (n_models, n_rows)
         stacked = np.stack(all_preds, axis=0)
-        return self.agg_fn(stacked)
+        predictions = self.agg_fn(stacked)
+
+        if live_benchmark_models is not None:
+            submission = pd.Series(predictions, index=X.index)
+            return submission.to_frame("prediction")
+
+        return predictions
 
     def __repr__(self) -> str:
         model_list = ", ".join(name for name, _ in self.models)
