@@ -130,7 +130,7 @@ class EnsembleModel:
                 f"number of models ({n_models})"
             )
 
-         # --- features: allow a flat list (broadcast) or one list per model ---
+        # --- features: allow a flat list (broadcast) or one list per model ---
         if len(features) == 0:
             raise ValueError("features must be non-empty")
         if isinstance(features[0], str):

@@ -7,4 +7,5 @@
   "reportOptionalOperand": "none",
   "reportPossiblyUnboundVariable": "none",
   "reportAssignmentType": "none",
+  "reportOptionalSubscript": "none"
 }

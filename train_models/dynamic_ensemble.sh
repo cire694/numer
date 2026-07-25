@@ -1,0 +1,29 @@
+#!/bin/bash
+#SBATCH --job-name=dynamic_ensemble_lgbm               # name shown in squeue
+#SBATCH --output=logs/%j_dynamic_ensemble_lgbm.out     # stdout log (%j = job id)
+#SBATCH --error=logs/%j_dynamic_ensemble_lgbm.err      # stderr log
+#SBATCH --time=08:00:00                             # max wall time (HH:MM:SS)
+#SBATCH --nodes=1                                   # single node (joblib doesn't span nodes)
+#SBATCH --ntasks=1                                  # one task (our python script)
+#SBATCH --cpus-per-task=16                          # cores for joblib parallelism
+#SBATCH --mem=128G                                  # RAM — Numerai data is large
+#SBATCH --partition=mit_normal                      # ORCD partition name (check with sinfo)
+
+# ── Environment setup ────────────────────────────────────────────
+echo "Job started: $(date)"
+echo "Running on node: $(hostname)"
+echo "CPUs allocated: $SLURM_CPUS_PER_TASK"
+
+# Load conda — path may differ, check with: which conda
+module load miniforge
+
+# Move to project directory
+cd /home/$USER/numer
+
+# Create logs dir if it doesn't exist
+mkdir -p logs
+
+# ── Run training ─────────────────────────────────────────────────
+conda run -n numer python -m train_models.dynamic_ensemble
+
+echo "Job finished: $(date)"
