@@ -1,0 +1,5 @@
+Job started: Tue Jul 28 14:54:15 EDT 2026
+Running on node: node3306
+CPUs allocated: 64
+Starting fresh training run with job ID: 19096489
+Running: python -u -m train_models.dynamic_ensemble --mode prelim --job-id 19096489  --n-jobs 2 --checkpoint-every-iters 250 --early-stopping-holdout-frac 0.03

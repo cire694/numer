@@ -1,0 +1,8 @@
+Job started: Tue Jul 28 23:06:05 EDT 2026
+Running on node: node1615
+CPUs allocated: 16
+Model loaded: models/dynamic_ensemble_20260728_225421.pkl
+{'mean_corr': 0.021836946517044483, 'std_corr': 0.018359631713804937, 'sharpe': 1.1894000303189574}
+Saved to evaluate_models/dynamic_ensemble_20260728_225421_results.json
+
+Job finished: Tue Jul 28 23:24:20 EDT 2026

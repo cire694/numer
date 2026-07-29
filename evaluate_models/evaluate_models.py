@@ -48,5 +48,5 @@ def evaluate_model(model_name: str, downsample: int=4):
 
 if __name__ == "__main__":
     
-    model_name = 'deep_feature_ensemble_20260703_030743'
+    model_name = 'dynamic_ensemble_20260728_225421'
     evaluate_model(model_name=model_name, downsample=1)

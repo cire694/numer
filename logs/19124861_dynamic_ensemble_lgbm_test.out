@@ -1,0 +1,425 @@
+Job started: Tue Jul 28 21:35:31 EDT 2026
+Running on node: node3306
+CPUs allocated: 64
+Resuming from checkpoint job ID: 19096489
+Running: python -u -m train_models.dynamic_ensemble --mode prelim --job-id 19096489 --resume --n-jobs 2 --checkpoint-every-iters 250 --early-stopping-holdout-frac 0.03
+[run] mode=prelim resume=True job_id=19096489 n_jobs=2
+[run] loading train split...
+[run] train loaded: 2,746,268 rows, 2748 features
+[run] loading validation split...
+[run] validation loaded: 4,057,302 rows
+[run] checkpoint_dir=./models/dynamic_ensemble/19096489
+[run] allocated_cpus=128 slurm_cpus=64 -> threads_per_model=32 (n_jobs=2)
+[run] starting ensemble.fit()...
+[fit] starting. n_models=16 checkpoint_dir=./models/dynamic_ensemble/19096489 resume=True base_train_rows=2,746,268 meta_train_rows=2,746,268
+[resume] loading checkpoint: ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl
+[resume] resuming meta head training from epoch 20
+[fit] initializing meta head.
+[base models] launching with max_concurrent_models=2 (n_jobs=2), base_checkpoint_every_iters=250
+[base models] submitting model 1/16: intelligence (35 features, target=target)
+[base models] submitting model 2/16: charisma (290 features, target=target)[base models] [intelligence] starting fresh: 0/10000 iterations.
+
+[base models] submitting model 3/16: strength (135 features, target=target)
+[base models] submitting model 4/16: dexterity (51 features, target=target)
+[base models] submitting model 5/16: constitution (335 features, target=target)
+[base models] submitting model 6/16: wisdom (140 features, target=target)
+[base models] submitting model 7/16: agility (145 features, target=target)
+[base models] submitting model 8/16: serenity (95 features, target=target)
+[base models] submitting model 9/16: sunshine (325 features, target=target)
+[base models] submitting model 10/16: rain (666 features, target=target)
+[base models] submitting model 11/16: midnight (244 features, target=target)
+[base models] submitting model 12/16: faith (372 features, target=target)
+[base models] submitting model 13/16: target_ender_20 (2748 features, target=target_ender_20)
+[base models] submitting model 14/16: target_ender_60 (2748 features, target=target_ender_60)
+[base models] submitting model 15/16: target_jasper_20 (2748 features, target=target_jasper_20)
+[base models] [charisma] starting fresh: 0/10000 iterations.[base models] submitting model 16/16: target_jasper_60 (2748 features, target=target_jasper_60)
+[base models] waiting for 16 model(s)...
+
+[base models] [intelligence] fitting 10000 rounds on 2,746,268 rows x 35 features...
+[base models] [charisma] fitting 10000 rounds on 2,746,268 rows x 290 features...
+[base models] [intelligence] iter checkpoint saved: 250/10000
+[base models] [charisma] iter checkpoint saved: 250/10000
+[base models] [intelligence] iter checkpoint saved: 500/10000
+[base models] [intelligence] DONE: 10000/10000 iterations in 0.4 min.
+[base models] [strength] starting fresh: 0/10000 iterations.
+[base models] model 1/16 ('intelligence') complete. progress: 1/16
+[base models] [strength] fitting 10000 rounds on 2,746,268 rows x 135 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.1s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (2.0s)
+[base models] full ensemble checkpoint saved (1/16 models)
+[base models] [charisma] iter checkpoint saved: 500/10000
+[base models] [strength] iter checkpoint saved: 250/10000
+[base models] [charisma] iter checkpoint saved: 750/10000
+[base models] [strength] iter checkpoint saved: 500/10000
+[base models] [charisma] iter checkpoint saved: 1000/10000
+[base models] [strength] iter checkpoint saved: 750/10000
+[base models] [strength] iter checkpoint saved: 1000/10000
+[base models] [charisma] iter checkpoint saved: 1250/10000
+[base models] [strength] iter checkpoint saved: 1250/10000
+[base models] [charisma] iter checkpoint saved: 1500/10000
+[base models] [strength] iter checkpoint saved: 1500/10000
+[base models] [charisma] iter checkpoint saved: 1750/10000
+[base models] [strength] iter checkpoint saved: 1750/10000
+[base models] [charisma] DONE: 10000/10000 iterations in 1.5 min.
+[base models] [dexterity] starting fresh: 0/10000 iterations.
+[base models] model 2/16 ('charisma') complete. progress: 2/16
+[base models] [dexterity] fitting 10000 rounds on 2,746,268 rows x 51 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.2s)
+[base models] [strength] iter checkpoint saved: 2000/10000
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (2.1s)
+[base models] full ensemble checkpoint saved (2/16 models)
+[base models] [strength] iter checkpoint saved: 2250/10000
+[base models] [strength] DONE: 10000/10000 iterations in 1.3 min.
+[base models] model 3/16 ('strength') complete. progress: 3/16
+[base models] [constitution] starting fresh: 0/10000 iterations.
+[base models] [constitution] fitting 10000 rounds on 2,746,268 rows x 335 features...
+[base models] [dexterity] iter checkpoint saved: 250/10000
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.0s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (2.4s)
+[base models] full ensemble checkpoint saved (3/16 models)
+[base models] [dexterity] iter checkpoint saved: 500/10000
+[base models] [constitution] iter checkpoint saved: 250/10000
+[base models] [dexterity] iter checkpoint saved: 750/10000
+[base models] [constitution] iter checkpoint saved: 500/10000
+[base models] [dexterity] iter checkpoint saved: 1000/10000
+[base models] [constitution] iter checkpoint saved: 750/10000
+[base models] [dexterity] iter checkpoint saved: 1250/10000
+[base models] [constitution] iter checkpoint saved: 1000/10000
+[base models] [dexterity] iter checkpoint saved: 1500/10000
+[base models] [constitution] iter checkpoint saved: 1250/10000
+[base models] [dexterity] DONE: 10000/10000 iterations in 1.3 min.
+[base models] [wisdom] starting fresh: 0/10000 iterations.
+[base models] [wisdom] fitting 10000 rounds on 2,746,268 rows x 140 features...
+[base models] model 4/16 ('dexterity') complete. progress: 4/16
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.3s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.9s)
+[base models] full ensemble checkpoint saved (4/16 models)
+[base models] [constitution] iter checkpoint saved: 1500/10000
+[base models] [wisdom] iter checkpoint saved: 250/10000
+[base models] [constitution] iter checkpoint saved: 1750/10000
+[base models] [wisdom] iter checkpoint saved: 500/10000
+[base models] [constitution] iter checkpoint saved: 2000/10000
+[base models] [constitution] DONE: 10000/10000 iterations in 1.6 min.
+[base models] model 5/16 ('constitution') complete. progress: 5/16
+[base models] [agility] starting fresh: 0/10000 iterations.
+[base models] [agility] fitting 10000 rounds on 2,746,268 rows x 145 features...
+[base models] [wisdom] iter checkpoint saved: 750/10000
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.7s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.8s)
+[base models] full ensemble checkpoint saved (5/16 models)
+[base models] [wisdom] iter checkpoint saved: 1000/10000
+[base models] [agility] iter checkpoint saved: 250/10000
+[base models] [wisdom] iter checkpoint saved: 1250/10000
+[base models] [agility] iter checkpoint saved: 500/10000
+[base models] [wisdom] iter checkpoint saved: 1500/10000
+[base models] [agility] iter checkpoint saved: 750/10000
+[base models] [wisdom] iter checkpoint saved: 1750/10000
+[base models] [agility] iter checkpoint saved: 1000/10000
+[base models] [wisdom] DONE: 10000/10000 iterations in 1.1 min.
+[base models] model 6/16 ('wisdom') complete. progress: 6/16[base models] [serenity] starting fresh: 0/10000 iterations.
+
+[base models] [serenity] fitting 10000 rounds on 2,746,268 rows x 95 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.0s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.7s)
+[base models] full ensemble checkpoint saved (6/16 models)
+[base models] [agility] iter checkpoint saved: 1250/10000
+[base models] [serenity] iter checkpoint saved: 250/10000
+[base models] [agility] DONE: 10000/10000 iterations in 0.8 min.
+[base models] model 7/16 ('agility') complete. progress: 7/16
+[base models] [sunshine] starting fresh: 0/10000 iterations.
+[base models] [sunshine] fitting 10000 rounds on 2,746,268 rows x 325 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.7s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.8s)
+[base models] full ensemble checkpoint saved (7/16 models)
+[base models] [serenity] iter checkpoint saved: 500/10000
+[base models] [serenity] iter checkpoint saved: 750/10000
+[base models] [sunshine] iter checkpoint saved: 250/10000
+[base models] [serenity] iter checkpoint saved: 1000/10000
+[base models] [sunshine] iter checkpoint saved: 500/10000
+[base models] [serenity] iter checkpoint saved: 1250/10000
+[base models] [sunshine] iter checkpoint saved: 750/10000
+[base models] [serenity] iter checkpoint saved: 1500/10000
+[base models] [serenity] iter checkpoint saved: 1750/10000
+[base models] [sunshine] iter checkpoint saved: 1000/10000
+[base models] [serenity] iter checkpoint saved: 2000/10000
+[base models] [sunshine] iter checkpoint saved: 1250/10000
+[base models] [serenity] iter checkpoint saved: 2250/10000
+[base models] [sunshine] iter checkpoint saved: 1500/10000
+[base models] [serenity] iter checkpoint saved: 2500/10000
+[base models] [serenity] iter checkpoint saved: 2750/10000
+[base models] [sunshine] iter checkpoint saved: 1750/10000
+[base models] [serenity] iter checkpoint saved: 3000/10000
+[base models] [sunshine] iter checkpoint saved: 2000/10000
+[base models] [serenity] iter checkpoint saved: 3250/10000
+[base models] [sunshine] iter checkpoint saved: 2250/10000
+[base models] [serenity] iter checkpoint saved: 3500/10000
+[base models] [serenity] DONE: 10000/10000 iterations in 2.1 min.
+[base models] model 8/16 ('serenity') complete. progress: 8/16[base models] [rain] starting fresh: 0/10000 iterations.
+
+[base models] [rain] fitting 10000 rounds on 2,746,268 rows x 666 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.5s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (2.1s)
+[base models] full ensemble checkpoint saved (8/16 models)
+[base models] [sunshine] iter checkpoint saved: 2500/10000
+[base models] [sunshine] iter checkpoint saved: 2750/10000
+[base models] [sunshine] iter checkpoint saved: 3000/10000
+[base models] [sunshine] DONE: 10000/10000 iterations in 2.4 min.
+[base models] model 9/16 ('sunshine') complete. progress: 9/16
+[base models] [midnight] starting fresh: 0/10000 iterations.
+[base models] [midnight] fitting 10000 rounds on 2,746,268 rows x 244 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.8s)
+[base models] [rain] iter checkpoint saved: 250/10000
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.7s)
+[base models] full ensemble checkpoint saved (9/16 models)
+[base models] [midnight] iter checkpoint saved: 250/10000
+[base models] [rain] iter checkpoint saved: 500/10000
+[base models] [midnight] iter checkpoint saved: 500/10000
+[base models] [rain] iter checkpoint saved: 750/10000
+[base models] [midnight] iter checkpoint saved: 750/10000
+[base models] [midnight] iter checkpoint saved: 1000/10000
+[base models] [rain] iter checkpoint saved: 1000/10000
+[base models] [midnight] iter checkpoint saved: 1250/10000
+[base models] [rain] iter checkpoint saved: 1250/10000
+[base models] [midnight] iter checkpoint saved: 1500/10000
+[base models] [midnight] DONE: 10000/10000 iterations in 1.2 min.
+[base models] model 11/16 ('midnight') complete. progress: 10/16
+[base models] [faith] starting fresh: 0/10000 iterations.
+[base models] [faith] fitting 10000 rounds on 2,746,268 rows x 372 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.9s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.8s)
+[base models] full ensemble checkpoint saved (10/16 models)
+[base models] [rain] iter checkpoint saved: 1500/10000
+[base models] [rain] iter checkpoint saved: 1750/10000
+[base models] [faith] iter checkpoint saved: 250/10000
+[base models] [rain] iter checkpoint saved: 2000/10000
+[base models] [rain] iter checkpoint saved: 2250/10000
+[base models] [faith] iter checkpoint saved: 500/10000
+[base models] [rain] iter checkpoint saved: 2500/10000
+[base models] [faith] iter checkpoint saved: 750/10000
+[base models] [rain] iter checkpoint saved: 2750/10000
+[base models] [rain] iter checkpoint saved: 3000/10000
+[base models] [faith] iter checkpoint saved: 1000/10000
+[base models] [rain] iter checkpoint saved: 3250/10000
+[base models] [faith] iter checkpoint saved: 1250/10000
+[base models] [rain] iter checkpoint saved: 3500/10000
+[base models] [rain] DONE: 10000/10000 iterations in 4.0 min.
+[base models] model 10/16 ('rain') complete. progress: 11/16[base models] [target_ender_20] starting fresh: 0/10000 iterations.
+
+[base models] [target_ender_20] fitting 10000 rounds on 2,746,268 rows x 2748 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.9s)
+[base models] [faith] iter checkpoint saved: 1500/10000
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.6s)
+[base models] full ensemble checkpoint saved (11/16 models)
+[base models] [faith] iter checkpoint saved: 1750/10000
+[base models] [faith] iter checkpoint saved: 2000/10000
+[base models] [faith] iter checkpoint saved: 2250/10000
+[base models] [faith] iter checkpoint saved: 2500/10000
+[base models] [faith] DONE: 10000/10000 iterations in 3.5 min.
+[base models] model 12/16 ('faith') complete. progress: 12/16
+[base models] [target_ender_60] starting fresh: 0/10000 iterations.
+[base models] [target_ender_60] fitting 10000 rounds on 2,746,268 rows x 2748 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.9s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.7s)
+[base models] full ensemble checkpoint saved (12/16 models)
+[base models] [target_ender_20] iter checkpoint saved: 250/10000
+[base models] [target_ender_20] iter checkpoint saved: 500/10000
+[base models] [target_ender_20] iter checkpoint saved: 750/10000
+[base models] [target_ender_60] iter checkpoint saved: 250/10000
+[base models] [target_ender_20] iter checkpoint saved: 1000/10000
+[base models] [target_ender_60] iter checkpoint saved: 500/10000
+[base models] [target_ender_20] iter checkpoint saved: 1250/10000
+[base models] [target_ender_60] iter checkpoint saved: 750/10000
+[base models] [target_ender_20] iter checkpoint saved: 1500/10000
+[base models] [target_ender_60] iter checkpoint saved: 1000/10000
+[base models] [target_ender_20] iter checkpoint saved: 1750/10000
+[base models] [target_ender_60] iter checkpoint saved: 1250/10000
+[base models] [target_ender_20] iter checkpoint saved: 2000/10000
+[base models] [target_ender_60] iter checkpoint saved: 1500/10000
+[base models] [target_ender_20] iter checkpoint saved: 2250/10000
+[base models] [target_ender_60] iter checkpoint saved: 1750/10000
+[base models] [target_ender_20] iter checkpoint saved: 2500/10000
+[base models] [target_ender_60] iter checkpoint saved: 2000/10000
+[base models] [target_ender_20] iter checkpoint saved: 2750/10000
+[base models] [target_ender_60] iter checkpoint saved: 2250/10000
+[base models] [target_ender_20] iter checkpoint saved: 3000/10000
+[base models] [target_ender_60] iter checkpoint saved: 2500/10000
+[base models] [target_ender_20] iter checkpoint saved: 3250/10000
+[base models] [target_ender_60] iter checkpoint saved: 2750/10000
+[base models] [target_ender_20] iter checkpoint saved: 3500/10000
+[base models] [target_ender_60] iter checkpoint saved: 3000/10000
+[base models] [target_ender_20] iter checkpoint saved: 3750/10000
+[base models] [target_ender_60] iter checkpoint saved: 3250/10000
+[base models] [target_ender_20] iter checkpoint saved: 4000/10000
+[base models] [target_ender_60] iter checkpoint saved: 3500/10000
+[base models] [target_ender_20] iter checkpoint saved: 4250/10000
+[base models] [target_ender_60] iter checkpoint saved: 3750/10000
+[base models] [target_ender_60] iter checkpoint saved: 4000/10000
+[base models] [target_ender_20] iter checkpoint saved: 4500/10000
+[base models] [target_ender_60] iter checkpoint saved: 4250/10000
+[base models] [target_ender_20] iter checkpoint saved: 4750/10000
+[base models] [target_ender_20] iter checkpoint saved: 5000/10000
+[base models] [target_ender_60] iter checkpoint saved: 4500/10000
+[base models] [target_ender_20] iter checkpoint saved: 5250/10000
+[base models] [target_ender_60] iter checkpoint saved: 4750/10000
+[base models] [target_ender_20] iter checkpoint saved: 5500/10000
+[base models] [target_ender_60] iter checkpoint saved: 5000/10000
+[base models] [target_ender_20] iter checkpoint saved: 5750/10000
+[base models] [target_ender_60] iter checkpoint saved: 5250/10000
+[base models] [target_ender_20] iter checkpoint saved: 6000/10000
+[base models] [target_ender_60] iter checkpoint saved: 5500/10000
+[base models] [target_ender_20] iter checkpoint saved: 6250/10000
+[base models] [target_ender_60] iter checkpoint saved: 5750/10000
+[base models] [target_ender_20] iter checkpoint saved: 6500/10000
+[base models] [target_ender_60] iter checkpoint saved: 6000/10000
+[base models] [target_ender_20] iter checkpoint saved: 6750/10000
+[base models] [target_ender_60] iter checkpoint saved: 6250/10000
+[base models] [target_ender_20] iter checkpoint saved: 7000/10000
+[base models] [target_ender_60] iter checkpoint saved: 6500/10000
+[base models] [target_ender_20] iter checkpoint saved: 7250/10000
+[base models] [target_ender_60] iter checkpoint saved: 6750/10000
+[base models] [target_ender_20] iter checkpoint saved: 7500/10000
+[base models] [target_ender_60] iter checkpoint saved: 7000/10000
+[base models] [target_ender_20] iter checkpoint saved: 7750/10000
+[base models] [target_ender_60] iter checkpoint saved: 7250/10000
+[base models] [target_ender_20] iter checkpoint saved: 8000/10000
+[base models] [target_ender_60] iter checkpoint saved: 7500/10000
+[base models] [target_ender_20] iter checkpoint saved: 8250/10000
+[base models] [target_ender_60] iter checkpoint saved: 7750/10000
+[base models] [target_ender_20] iter checkpoint saved: 8500/10000
+[base models] [target_ender_60] iter checkpoint saved: 8000/10000
+[base models] [target_ender_20] iter checkpoint saved: 8750/10000
+[base models] [target_ender_60] iter checkpoint saved: 8250/10000
+[base models] [target_ender_20] iter checkpoint saved: 9000/10000
+[base models] [target_ender_60] iter checkpoint saved: 8500/10000
+[base models] [target_ender_20] iter checkpoint saved: 9250/10000
+[base models] [target_ender_60] iter checkpoint saved: 8750/10000
+[base models] [target_ender_20] iter checkpoint saved: 9500/10000
+[base models] [target_ender_60] iter checkpoint saved: 9000/10000
+[base models] [target_ender_20] iter checkpoint saved: 9750/10000
+[base models] [target_ender_60] iter checkpoint saved: 9250/10000
+[base models] [target_ender_20] iter checkpoint saved: 10000/10000
+[base models] [target_ender_20] DONE: 10000/10000 iterations in 25.1 min.
+[base models] model 13/16 ('target_ender_20') complete. progress: 13/16
+[base models] [target_jasper_20] starting fresh: 0/10000 iterations.
+[base models] [target_jasper_20] fitting 10000 rounds on 2,746,268 rows x 2748 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.9s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.6s)
+[base models] full ensemble checkpoint saved (13/16 models)
+[base models] [target_ender_60] iter checkpoint saved: 9500/10000
+[base models] [target_ender_60] iter checkpoint saved: 9750/10000
+[base models] [target_ender_60] DONE: 10000/10000 iterations in 25.0 min.
+[base models] model 14/16 ('target_ender_60') complete. progress: 14/16[base models] [target_jasper_60] starting fresh: 0/10000 iterations.
+
+[base models] [target_jasper_60] fitting 10000 rounds on 2,746,268 rows x 2748 features...
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.2s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.6s)
+[base models] full ensemble checkpoint saved (14/16 models)
+[base models] [target_jasper_20] iter checkpoint saved: 250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 1000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 1250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 1500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 1000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 1750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 1250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 2000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 1500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 2250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 1750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 2500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 2000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 2750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 2250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 3000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 2500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 3250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 2750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 3500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 3750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 3000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 4000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 3250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 4250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 3500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 4500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 3750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 4750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 4000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 5000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 4250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 5250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 4500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 5500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 4750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 5750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 5000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 5250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 6000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 6250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 5500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 6500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 5750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 6750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 6000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 7000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 6250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 7250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 6500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 7500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 6750/10000
+[base models] [target_jasper_20] iter checkpoint saved: 7750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 7000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 8000/10000
+[base models] [target_jasper_20] iter checkpoint saved: 8250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 7250/10000
+[base models] [target_jasper_20] iter checkpoint saved: 8500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 7500/10000
+[base models] [target_jasper_20] iter checkpoint saved: 8750/10000
+[base models] [target_jasper_60] iter checkpoint saved: 7750/10000
+[base models] [target_jasper_20] DONE: 10000/10000 iterations in 19.6 min.
+[base models] model 15/16 ('target_jasper_20') complete. progress: 15/16
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (2.0s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.6s)
+[base models] full ensemble checkpoint saved (15/16 models)
+[base models] [target_jasper_60] iter checkpoint saved: 8000/10000
+[base models] [target_jasper_60] iter checkpoint saved: 8250/10000
+[base models] [target_jasper_60] iter checkpoint saved: 8500/10000
+[base models] [target_jasper_60] iter checkpoint saved: 8750/10000
+[base models] [target_jasper_60] DONE: 10000/10000 iterations in 20.3 min.
+[base models] model 16/16 ('target_jasper_60') complete. progress: 16/16
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_base_models.pkl (1.5s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.3s)
+[base models] full ensemble checkpoint saved (16/16 models)
+[base models] ALL 16 models trained in 56.6 min.
+[meta head] pre-computing base model predictions for meta training set...
+[meta head] predicted with base model 'intelligence' in 2.4s
+[meta head] predicted with base model 'charisma' in 12.1s
+[meta head] predicted with base model 'strength' in 13.1s
+[meta head] predicted with base model 'dexterity' in 10.4s
+[meta head] predicted with base model 'constitution' in 4.8s
+[meta head] predicted with base model 'wisdom' in 11.9s
+[meta head] predicted with base model 'agility' in 7.8s
+[meta head] predicted with base model 'serenity' in 21.3s
+[meta head] predicted with base model 'sunshine' in 18.1s
+[meta head] predicted with base model 'rain' in 24.7s
+[meta head] predicted with base model 'midnight' in 9.5s
+[meta head] predicted with base model 'faith' in 0.8s
+[meta head] predicted with base model 'target_ender_20' in 158.5s
+[meta head] predicted with base model 'target_ender_60' in 4.3s
+[meta head] predicted with base model 'target_jasper_20' in 146.4s
+[meta head] predicted with base model 'target_jasper_60' in 108.8s
+[meta head] restored optimizer state, resuming at epoch 20/20
+[meta head] training epochs 20..20 (2,746,268 rows, batch_size=1024)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_meta_epoch_20.pkl (1.3s)
+[checkpoint] saved ./models/dynamic_ensemble/19096489/checkpoint_latest.pkl (1.3s)
+[meta head] epoch=20/20 train_mse=0.049857 val_mse=0.050017 (13.0s)
+[fit] complete in 78.0 min total.
+[run] saving final model...
+Model saved: ./models/dynamic_ensemble_20260728_225421.pkl
+[run] done.
+
+Job finished: Tue Jul 28 22:54:27 EDT 2026

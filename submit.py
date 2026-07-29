@@ -51,8 +51,8 @@ def submit(config: Optional[Config] = None, model: Optional[BaseEstimator] = Non
 if __name__ == "__main__":
     
     #submit whatever
-    model_name = "feature_ensemble" # needs to exist in numer account
-    model_path = "models/deep_feature_ensemble_20260703_030743.pkl"
+    model_name = "fat_boi" # needs to exist in numer account
+    model_path = "models/dynamic_ensemble_20260728_034545.pkl"
     submit(model_path=model_path, model_name = model_name)
     
 
