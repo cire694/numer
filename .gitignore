@@ -4,3 +4,4 @@ __pycache__
 models/
 !models/__init__.py
 .env
+*.pkl

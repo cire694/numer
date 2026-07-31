@@ -12,4 +12,3 @@ def get_pickle(predict_fn, out_file):
     with open(out_file, "wb") as f: 
         f.write(p)
     
-    
